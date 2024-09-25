@@ -21,4 +21,5 @@
 *.htm 
 *.map
 .idea/
-cmake-build-debug/
+cmake-build-debug-esp32/
+esp-idf-v5.2.1/
