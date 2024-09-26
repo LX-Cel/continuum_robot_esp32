@@ -64,3 +64,4 @@ E:/ESP32_CODE/continuum_robot_esp32/cmake-build-debug-esp32/esp-idf/touch_elemen
 E:/ESP32_CODE/continuum_robot_esp32/cmake-build-debug-esp32/esp-idf/usb/libusb.a
 E:/ESP32_CODE/continuum_robot_esp32/cmake-build-debug-esp32/esp-idf/wifi_provisioning/libwifi_provisioning.a
 E:/ESP32_CODE/continuum_robot_esp32/cmake-build-debug-esp32/esp-idf/main/libmain.a
+E:/ESP32_CODE/continuum_robot_esp32/cmake-build-debug-esp32/esp-idf/components/libcomponents.a

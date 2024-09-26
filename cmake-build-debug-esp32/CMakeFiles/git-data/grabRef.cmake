@@ -18,7 +18,7 @@ set(HEAD_HASH)
 file(READ "E:/ESP32_CODE/continuum_robot_esp32/cmake-build-debug-esp32/CMakeFiles/git-data/HEAD" HEAD_CONTENTS LIMIT 1024)
 
 string(STRIP "${HEAD_CONTENTS}" HEAD_CONTENTS)
-set(GIT_DIR "E:/Espressif/frameworks/esp-idf-v5.2.1/.git")
+set(GIT_DIR "E:/ESP32_CODE/continuum_robot_esp32/.git")
 # handle git-worktree
 if(EXISTS "${GIT_DIR}/commondir")
 	file(READ "${GIT_DIR}/commondir" GIT_DIR_NEW LIMIT 1024)

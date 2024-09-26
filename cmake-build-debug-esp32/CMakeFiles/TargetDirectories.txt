@@ -653,3 +653,10 @@ E:/ESP32_CODE/continuum_robot_esp32/cmake-build-debug-esp32/esp-idf/main/CMakeFi
 E:/ESP32_CODE/continuum_robot_esp32/cmake-build-debug-esp32/esp-idf/main/CMakeFiles/install.dir
 E:/ESP32_CODE/continuum_robot_esp32/cmake-build-debug-esp32/esp-idf/main/CMakeFiles/install/local.dir
 E:/ESP32_CODE/continuum_robot_esp32/cmake-build-debug-esp32/esp-idf/main/CMakeFiles/install/strip.dir
+E:/ESP32_CODE/continuum_robot_esp32/cmake-build-debug-esp32/esp-idf/components/CMakeFiles/__idf_components.dir
+E:/ESP32_CODE/continuum_robot_esp32/cmake-build-debug-esp32/esp-idf/components/CMakeFiles/edit_cache.dir
+E:/ESP32_CODE/continuum_robot_esp32/cmake-build-debug-esp32/esp-idf/components/CMakeFiles/rebuild_cache.dir
+E:/ESP32_CODE/continuum_robot_esp32/cmake-build-debug-esp32/esp-idf/components/CMakeFiles/list_install_components.dir
+E:/ESP32_CODE/continuum_robot_esp32/cmake-build-debug-esp32/esp-idf/components/CMakeFiles/install.dir
+E:/ESP32_CODE/continuum_robot_esp32/cmake-build-debug-esp32/esp-idf/components/CMakeFiles/install/local.dir
+E:/ESP32_CODE/continuum_robot_esp32/cmake-build-debug-esp32/esp-idf/components/CMakeFiles/install/strip.dir
