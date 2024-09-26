@@ -1,7 +1,7 @@
 {
     "version":            "1.1",
     "project_name":       "continuum_robot_esp32",
-    "project_version":    "f7dfab0-dirty",
+    "project_version":    "61c955a-dirty",
     "project_path":       "E:/ESP32_CODE/continuum_robot_esp32",
     "idf_path":           "E:/Espressif/frameworks/esp-idf-v5.2.1",
     "build_dir":          "E:/ESP32_CODE/continuum_robot_esp32/cmake-build-debug-esp32",
@@ -11,7 +11,7 @@
     "app_elf":            "continuum_robot_esp32.elf",
     "app_bin":            "continuum_robot_esp32.bin",
     "build_type":         "flash_app",
-    "git_revision":       "v5.2.1-dirty",
+    "git_revision":       "v5.2.1-1-gbcb53ace6c",
     "target":             "esp32s3",
     "rev":                "",
     "min_rev":            "0",
