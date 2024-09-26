@@ -24,12 +24,10 @@ void app_main(void)
 
 void start_main_task(void *pvParameters)
 {
-    const char* str = "Hello world!\n";;
+    const char* str = "Hello world!\r\n";
     while (1)
     {
         uart_write_bytes(USART_UX, str, strlen(str));   /* 写数据 */
-        ESP_LOGI("main_task", "Hello world!");
         vTaskDelay(pdMS_TO_TICKS(1000));
-
     }
 }
