@@ -81,6 +81,7 @@ test_multi_heap_host
 # Clion IDE CMake build & config
 .idea/
 cmake-build-*/
+cmake-build-debug-esp32/
 
 # Results for the checking of the Python coding style and static analysis
 .mypy_cache
