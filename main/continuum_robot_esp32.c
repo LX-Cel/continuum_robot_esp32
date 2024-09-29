@@ -4,6 +4,8 @@
 #include "esp_log.h"
 #include "usart.h"
 #include "nvs_flash.h"
+#include "step.h"
+#include "wifi.h"
 
 void start_main_task(void *pvParameters);
 
@@ -16,6 +18,7 @@ void app_main(void)
         ESP_ERROR_CHECK(nvs_flash_erase());
         ret = nvs_flash_init();
     }
+    ESP_ERROR_CHECK(ret);
 
     usart_init(115200);
 
@@ -24,12 +27,17 @@ void app_main(void)
 
 void start_main_task(void *pvParameters)
 {
-    const char* str = "Hello world!\n";;
+    // const char* str = "Hello world!\r\n";
+    // uint8_t str[4] = {0};
+    // str[0] = 0x01;
+    // str[1] = 0x02;
+    // str[2] = 0x03;
+    // str[3] = 0x04;
+
     while (1)
     {
-        uart_write_bytes(USART_UX, str, strlen(str));   /* 写数据 */
-        ESP_LOGI("main_task", "Hello world!");
-        vTaskDelay(pdMS_TO_TICKS(1000));
-
+        // uart_write_bytes(USART_UX, str, sizeof(str));   /* 写数据 */
+        Traj_Position_Control(1, 1, 1000, 1000, 2000.0f, 3600.0f, 0, 0);
+        vTaskDelay(pdMS_TO_TICKS(10000));
     }
 }

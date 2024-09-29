@@ -272,6 +272,7 @@ void Traj_Position_Control(uint8_t addr, uint8_t dir, uint16_t acc, uint16_t dec
   cmd[15] =  0x6B;                      // 校验字节
 
   // 发送命令
+  vTaskDelay(pdMS_TO_TICKS(10));
   uart_write_bytes(USART_UX, cmd, 16);
 }
 
