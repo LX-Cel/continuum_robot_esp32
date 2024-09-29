@@ -15,10 +15,14 @@
 
 typedef struct _network_connect_info_t
 {
-    uint8_t connet_state;   // 网络连接状态
+    uint8_t connect_state;   // 网络连接状态
     char ip_buf[100];       // 分配的ip地址
     char mac_buf[100];      // 子网掩码
     void (*fun)(uint8_t x); // 函数指针
 } network_connect_info;
+
+extern network_connect_info network_connect;
+
+void wifi_sta_init(void);
 
 #endif //WIFI_H

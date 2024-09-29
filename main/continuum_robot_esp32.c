@@ -6,6 +6,7 @@
 #include "nvs_flash.h"
 #include "step.h"
 #include "wifi.h"
+#include "lwip.h"
 
 void start_main_task(void *pvParameters);
 
@@ -21,6 +22,9 @@ void app_main(void)
     ESP_ERROR_CHECK(ret);
 
     usart_init(115200);
+
+    wifi_sta_init();
+
 
     xTaskCreatePinnedToCore(start_main_task, "main_task", 2048, NULL, 5, NULL, 1);
 }
