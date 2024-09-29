@@ -1,16 +1,16 @@
 # ninja log v6
 53	102	7489493590230139	esp-idf/esp_system/ld/memory.ld	27e6a83f88eb9ee4
-6247	6415	7489493651713197	esp-idf/esp_hw_support/CMakeFiles/__idf_esp_hw_support.dir/port/esp_memprot_conv.c.obj	fbff3c3b35169197
-13369	13604	7489493722942347	esp-idf/protocomm/CMakeFiles/__idf_protocomm.dir/src/crypto/srp6a/esp_srp_mpi.c.obj	82bf73eb85653bbe
-14597	15141	7489493735220746	esp-idf/spiffs/CMakeFiles/__idf_spiffs.dir/spiffs/src/spiffs_nucleus.c.obj	3fc9fe0d9dfb155c
-2573	3038	7489493614978317	esp-idf/lwip/CMakeFiles/__idf_lwip.dir/lwip/src/api/api_msg.c.obj	930d562e9874a0e
-2017	2334	7489493609412962	esp-idf/wpa_supplicant/CMakeFiles/__idf_wpa_supplicant.dir/esp_supplicant/src/esp_wpa_main.c.obj	1d8816e0339f3ec3
+15966	16744	7490556503127853	esp-idf/wpa_supplicant/CMakeFiles/__idf_wpa_supplicant.dir/esp_supplicant/src/esp_wpa_main.c.obj	16a99d651af12544
+20196	21159	7490556545432800	esp-idf/lwip/CMakeFiles/__idf_lwip.dir/lwip/src/api/api_msg.c.obj	1c80c1d553bb63e8
+43592	44029	7490556779406852	esp-idf/esp_hw_support/CMakeFiles/__idf_esp_hw_support.dir/port/esp_memprot_conv.c.obj	c42dded8c789ce5e
+87998	88576	7490557223490764	esp-idf/protocomm/CMakeFiles/__idf_protocomm.dir/src/crypto/srp6a/esp_srp_mpi.c.obj	d74d88a745b0f2ed
+95195	96141	7490557295464754	esp-idf/spiffs/CMakeFiles/__idf_spiffs.dir/spiffs/src/spiffs_nucleus.c.obj	69c577c8a8f96f2d
 53	102	7489493590230139	E:/ESP32_CODE/continuum_robot_esp32/cmake-build-debug-esp32/esp-idf/esp_system/ld/memory.ld	27e6a83f88eb9ee4
-7984	8172	7489493669087445	esp-idf/spi_flash/CMakeFiles/__idf_spi_flash.dir/spi_flash_chip_boya.c.obj	307449e404f0d10
-12236	12593	7489493711607536	esp-idf/driver/CMakeFiles/__idf_driver.dir/spi/gpspi/spi_slave_hd.c.obj	aec7e370bacfd710
-591	760	7489493595153449	esp-idf/esp_adc/CMakeFiles/__idf_esp_adc.dir/esp32s3/curve_fitting_coefficients.c.obj	bc8e49977e45c58a
-5747	6006	7489493646711684	esp-idf/esp_hw_support/CMakeFiles/__idf_esp_hw_support.dir/rtc_module.c.obj	1a5371de560d6306
-5175	5320	7489493640992485	esp-idf/newlib/CMakeFiles/__idf_newlib.dir/reent_init.c.obj	c21fbc14bd710988
+56155	56593	7490556905044531	esp-idf/spi_flash/CMakeFiles/__idf_spi_flash.dir/spi_flash_chip_boya.c.obj	43345149d6b479eb
+5332	5841	7490556396784848	esp-idf/esp_adc/CMakeFiles/__idf_esp_adc.dir/esp32s3/curve_fitting_coefficients.c.obj	24c431628a8ef1c8
+81152	81919	7490557155029803	esp-idf/driver/CMakeFiles/__idf_driver.dir/spi/gpspi/spi_slave_hd.c.obj	8189ca2289dbc48b
+40418	41006	7490556747660204	esp-idf/esp_hw_support/CMakeFiles/__idf_esp_hw_support.dir/rtc_module.c.obj	e39c47f3a529d575
+37090	37525	7490556714388411	esp-idf/newlib/CMakeFiles/__idf_newlib.dir/reent_init.c.obj	f0ad36cb167112e3
 42	187	7489482207960218	project_elf_src_esp32s3.c	fc672af0870846a4
 8007	8190	7489493669314968	esp-idf/spi_flash/CMakeFiles/__idf_spi_flash.dir/spi_flash_chip_th.c.obj	510bb2b24cec0e55
 160	392	7489493590836979	esp-idf/esp_http_client/CMakeFiles/__idf_esp_http_client.dir/lib/http_header.c.obj	c4458bf65fce1090

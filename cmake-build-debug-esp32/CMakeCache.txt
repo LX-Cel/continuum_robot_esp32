@@ -563,7 +563,7 @@ C_COMPILER_SUPPORTS_WFORMAT_SIGNEDNESS:INTERNAL=1
 //Details about finding Git
 FIND_PACKAGE_MESSAGE_DETAILS_Git:INTERNAL=[E:/Espressif/tools/idf-git/2.43.0/cmd/git.exe][v2.43.0.windows.1()]
 //Details about finding Python3
-FIND_PACKAGE_MESSAGE_DETAILS_Python3:INTERNAL=[E:/Python/Python312/python.exe][cfound components: Interpreter ][v3.12.0()]
+FIND_PACKAGE_MESSAGE_DETAILS_Python3:INTERNAL=[D:/Python/Python311/python.exe][cfound components: Interpreter ][v3.11.9()]
 //ADVANCED property for variable: GIT_EXECUTABLE
 GIT_EXECUTABLE-ADVANCED:INTERNAL=1
 //Have include stddef.h
@@ -583,10 +583,10 @@ _Python3_Compiler_REASON_FAILURE:INTERNAL=
 //Development reason failure
 _Python3_Development_REASON_FAILURE:INTERNAL=
 //Path to a program.
-_Python3_EXECUTABLE:INTERNAL=E:/Python/Python312/python.exe
+_Python3_EXECUTABLE:INTERNAL=D:/Python/Python311/python.exe
 //Python3 Properties
-_Python3_INTERPRETER_PROPERTIES:INTERNAL=Python;3;12;0;32;64;;;abi3;E:\Python\Python312\Lib;E:\Python\Python312\Lib;E:\Python\Python312\Lib\site-packages;E:\Python\Python312\Lib\site-packages
-_Python3_INTERPRETER_SIGNATURE:INTERNAL=c3524cf0381cd4b3e9d12ba56110eb3e
+_Python3_INTERPRETER_PROPERTIES:INTERNAL=Python;3;11;9;32;64;;;abi3;D:\Python\Python311\Lib;D:\Python\Python311\Lib;D:\Python\Python311\Lib\site-packages;D:\Python\Python311\Lib\site-packages
+_Python3_INTERPRETER_SIGNATURE:INTERNAL=ecf2ff14e6c7ac348fe025c68034c739
 //NumPy reason failure
 _Python3_NumPy_REASON_FAILURE:INTERNAL=
 
