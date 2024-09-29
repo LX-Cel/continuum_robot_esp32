@@ -1,7 +1,7 @@
 {
     "version":            "1.1",
     "project_name":       "continuum_robot_esp32",
-    "project_version":    "3c6db6d-dirty",
+    "project_version":    "e4809d0-dirty",
     "project_path":       "E:/ESP32_CODE/continuum_robot_esp32",
     "idf_path":           "E:/Espressif/frameworks/esp-idf-v5.2.1",
     "build_dir":          "E:/ESP32_CODE/continuum_robot_esp32/cmake-build-debug-esp32",
