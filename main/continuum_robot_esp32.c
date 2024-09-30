@@ -25,6 +25,7 @@ void app_main(void)
 
     wifi_sta_init();
 
+    lwip_config();
 
     xTaskCreatePinnedToCore(start_main_task, "main_task", 2048, NULL, 5, NULL, 1);
 }
@@ -41,7 +42,7 @@ void start_main_task(void *pvParameters)
     while (1)
     {
         // uart_write_bytes(USART_UX, str, sizeof(str));   /* 写数据 */
-        Traj_Position_Control(1, 1, 1000, 1000, 2000.0f, 3600.0f, 0, 0);
+        // Traj_Position_Control(1, 1, 1000, 1000, 2000.0f, 3600.0f, 0, 0);
         vTaskDelay(pdMS_TO_TICKS(10000));
     }
 }

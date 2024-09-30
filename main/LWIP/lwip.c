@@ -16,7 +16,7 @@ uint8_t g_lwip_send_data[] = "Hello, this is lwip server!";
 
 /* 数据发送标志位 */
 uint8_t g_lwip_send_flag = 0;
-int g_socket_conn = -1;
+int g_socket_conn = 0;
 int g_lwip_connect_state = 0;
 
 static void lwip_send_thread(void *arg);
@@ -27,7 +27,7 @@ static void lwip_send_thread(void *arg);
  * @retval      无
  */
 void lwip_send_data(void) {
-    xTaskCreatePinnedToCore(lwip_send_thread, "lwip_send_data", 4096, NULL, LWIP_SEND_THREAD_PRIO, NULL, 1);
+    xTaskCreatePinnedToCore(lwip_send_thread, "lwip_send_thread", 4096, NULL, LWIP_SEND_THREAD_PRIO, NULL, 1);
 }
 
 void lwip_config(void) {
@@ -107,6 +107,6 @@ void lwip_send_thread(void *pvParameters) {
             send(g_socket_conn, g_lwip_send_data, sizeof(g_lwip_send_data), 0);               /* 发送数据 */
             g_lwip_send_flag &= ~LWIP_SEND_DATA;
         }
-        vTaskDelay(pdMS_TO_TICKS(1));
+        vTaskDelay(pdMS_TO_TICKS(10));
     }
 }
