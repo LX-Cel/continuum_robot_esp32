@@ -23,6 +23,8 @@ typedef struct _network_connect_info_t
 
 extern network_connect_info network_connect;
 
-void wifi_sta_init(void);
+void wifi_event_handler(void *arg, esp_event_base_t event_base, int32_t event_id, void *event_data);
+void wifi_ap_init(void);
+
 
 #endif //WIFI_H

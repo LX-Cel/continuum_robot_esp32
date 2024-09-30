@@ -23,9 +23,7 @@ void app_main(void)
 
     usart_init(115200);
 
-    wifi_sta_init();
-
-    lwip_config();
+    wifi_ap_init();
 
     xTaskCreatePinnedToCore(start_main_task, "main_task", 2048, NULL, 5, NULL, 1);
 }
