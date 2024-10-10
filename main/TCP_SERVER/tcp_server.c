@@ -3,32 +3,37 @@
 //
 
 #include "tcp_server.h"
+#include "data_rev.h"
 
 static const char *TAG = "TCP_SERVER";
-static int sock = 0;
+int sock = 0;
 static int listen_sock;
 
 static void tcp_retransmit(const int sock)
 {
+    initRingBuff();
+    uint32_t count = 0;
     int len;
-    char rx_buffer[128];
 
     do {
-        len = recv(sock, rx_buffer, sizeof(rx_buffer) - 1, 0);
+        len = recv(sock, RxBuff, sizeof(RxBuff) - 1, 0);
+        for (count = 0; count < sizeof(RxBuff); count++) {
+            writeRingBuff(RxBuff[count]);
+        }
         if (len < 0) {
             ESP_LOGE(TAG, "Error occurred during receiving: errno %d", errno);      /* 记录错误信息 */
         } else if (len == 0) {                                                      /* 记录警告信息 */
             ESP_LOGW(TAG, "Connection closed");
         } else {
-            rx_buffer[len] = 0;                                                     /* 将接收到的内容以空字符终止，并将其视为字符串 */
-            ESP_LOGI(TAG, "Received %d bytes: %s", len, rx_buffer);                 /* 记录接收到的数据 */
+            RxBuff[len] = 0;                                                     /* 将接收到的内容以空字符终止，并将其视为字符串 */
+            // ESP_LOGI(TAG, "Received %d bytes: %s", len, RxBuff);                 /* 记录接收到的数据 */
 
             /*send 函数在发送数据时，可能由于网络拥塞或其他原因，无法一次性发送所有提供的数据。
              *为了确保所有数据都被发送，需要在一个循环中反复调用 send，直到所有数据都发送完毕
              */
             int to_write = len;
             while (to_write > 0) {
-                int written = send(sock, rx_buffer + (len - to_write), to_write, 0);
+                int written = send(sock, RxBuff + (len - to_write), to_write, 0);
                 if (written < 0) {
                     ESP_LOGE(TAG, "Error occurred during sending: errno %d", errno);    /* 记录错误信息 */
                     // Failed to retransmit, giving up
