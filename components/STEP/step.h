@@ -57,6 +57,21 @@ void Origin_Trigger_Return(uint8_t addr, uint8_t o_mode, bool snF); // 发送命
 void Origin_Interrupt(uint8_t addr); // 强制中断并退出回零
 uint32_t stepNumStrToData(uint32_t stepNumStr);
 uint32_t stepDirStrToData(uint32_t stepDirStr);
+void pulseOutput(uint32_t stepDir, uint32_t stepNum, uint32_t vel, uint32_t angle);
+void stepRotate_1_2(uint32_t stepDir, uint32_t vel, uint32_t angle);
+void stepRotate_3_4(uint32_t stepDir, uint32_t vel, uint32_t angle);
+void stepRotate_5_6(uint32_t stepDir, uint32_t vel, uint32_t angle);
+void stepRotate_7_8(uint32_t stepDir, uint32_t vel, uint32_t angle);
+void stepRotate_1(uint32_t stepDir, uint32_t vel, uint32_t angle);
+void stepRotate_2(uint32_t stepDir, uint32_t vel, uint32_t angle);
+void stepRotate_3(uint32_t stepDir, uint32_t vel, uint32_t angle);
+void stepRotate_4(uint32_t stepDir, uint32_t vel, uint32_t angle);
+void stepRotate_5(uint32_t stepDir, uint32_t vel, uint32_t angle);
+void stepRotate_6(uint32_t stepDir, uint32_t vel, uint32_t angle);
+void stepRotate_7(uint32_t stepDir, uint32_t vel, uint32_t angle);
+void stepRotate_8(uint32_t stepDir, uint32_t vel, uint32_t angle);
+void pulseOutput_single(uint32_t stepDir, uint32_t vel, uint32_t angle, uint32_t stepNum);
+
 
 
 #endif //STEP_H

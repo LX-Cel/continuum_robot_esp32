@@ -41,25 +41,26 @@ void start_main_task(void *pvParameters)
     // str[1] = 0x02;
     // str[2] = 0x03;
     // str[3] = 0x04;
+    initRingBuff();
+
+    StepMotor_t stepMotor;
+
+    StepMotor_t stepMotor_1;
+    StepMotor_t stepMotor_2;
+    StepMotor_t stepMotor_3;
+    StepMotor_t stepMotor_4;
 
     while (1)
     {
         // char str[6];
         // char str_1[6];
 
-        isDataTrue();
-
-        StepMotor_t stepMotor;
-
-        StepMotor_t stepMotor_1;
-        StepMotor_t stepMotor_2;
-        StepMotor_t stepMotor_3;
-        StepMotor_t stepMotor_4;
-
         initDataPos();
         initDataPosMul();
         initGetResult();
         initGetResultMul();
+
+        isDataTrue();
 
         if (usize >= 8) {
             if (u(0) == 'U') {
@@ -76,14 +77,14 @@ void start_main_task(void *pvParameters)
                     // 将数字转换为字符
                     // sprintf(str, "%d", getResult.result_1);
                     // sprintf(str_1, "%d", getResult.result_2);
-
-                    Traj_Position_Control(stepNumStrToData(stepMotor.num), stepDirStrToData(stepMotor.dir), 200, 200, (float)stepMotor.speed, (float)stepMotor.angle, 0, 0);
-
-                    udelete(10);
+                    if (stepMotor.angle != 0) {
+                        pulseOutput_single(stepMotor.dir, stepMotor.speed, stepMotor.angle, stepMotor.num);
+                    }
+                    udelete(8);
                 }
                 else if (u(1) == '0') {
                     Stop_Now(0, 0);
-                    udelete(10);
+                    udelete(8);
                 }
             }
             else if (u(0) == 'V') {
@@ -110,83 +111,108 @@ void start_main_task(void *pvParameters)
                     stepMotor_4.angle = getResultMul.resultMul_8;
 
                     if (stepMotor_1.angle != 0 && stepMotor_2.angle != 0 && stepMotor_3.angle != 0 && stepMotor_4.angle != 0) {
-                        Traj_Position_Control(stepNumStrToData(stepMotor_1.num), stepDirStrToData(stepMotor_1.dir), 200, 200, (float)stepMotor_1.speed, (float)stepMotor_1.angle, 0, 1);
-                        Traj_Position_Control(stepNumStrToData(stepMotor_2.num), stepDirStrToData(stepMotor_2.dir), 200, 200, (float)stepMotor_2.speed, (float)stepMotor_2.angle, 0, 1);
-                        Traj_Position_Control(stepNumStrToData(stepMotor_3.num), stepDirStrToData(stepMotor_3.dir), 200, 200, (float)stepMotor_3.speed, (float)stepMotor_3.angle, 0, 1);
-                        Traj_Position_Control(stepNumStrToData(stepMotor_4.num), stepDirStrToData(stepMotor_4.dir), 200, 200, (float)stepMotor_4.speed, (float)stepMotor_4.angle, 0, 1);
+                        pulseOutput(stepMotor_1.dir, stepMotor_1.num, stepMotor_1.speed, stepMotor_1.angle);
+                        pulseOutput(stepMotor_2.dir, stepMotor_2.num, stepMotor_2.speed, stepMotor_2.angle);
+                        pulseOutput(stepMotor_3.dir, stepMotor_3.num, stepMotor_3.speed, stepMotor_3.angle);
+                        pulseOutput(stepMotor_4.dir, stepMotor_4.num, stepMotor_4.speed, stepMotor_4.angle);
+                        // Traj_Position_Control(stepNumStrToData(stepMotor_1.num), stepDirStrToData(stepMotor_1.dir), 200, 200, (float)stepMotor_1.speed, (float)stepMotor_1.angle, 0, 1);
+                        // Traj_Position_Control(stepNumStrToData(stepMotor_2.num), stepDirStrToData(stepMotor_2.dir), 200, 200, (float)stepMotor_2.speed, (float)stepMotor_2.angle, 0, 1);
+                        // Traj_Position_Control(stepNumStrToData(stepMotor_3.num), stepDirStrToData(stepMotor_3.dir), 200, 200, (float)stepMotor_3.speed, (float)stepMotor_3.angle, 0, 1);
+                        // Traj_Position_Control(stepNumStrToData(stepMotor_4.num), stepDirStrToData(stepMotor_4.dir), 200, 200, (float)stepMotor_4.speed, (float)stepMotor_4.angle, 0, 1);
                         Synchronous_motion(0);
                     }
                     else if (stepMotor_1.angle == 0 && stepMotor_2.angle != 0 && stepMotor_3.angle != 0 && stepMotor_4.angle != 0) {
-                        Traj_Position_Control(stepNumStrToData(stepMotor_2.num), stepDirStrToData(stepMotor_2.dir), 200, 200, (float)stepMotor_2.speed, (float)stepMotor_2.angle, 0, 1);
-                        Traj_Position_Control(stepNumStrToData(stepMotor_3.num), stepDirStrToData(stepMotor_3.dir), 200, 200, (float)stepMotor_3.speed, (float)stepMotor_3.angle, 0, 1);
-                        Traj_Position_Control(stepNumStrToData(stepMotor_4.num), stepDirStrToData(stepMotor_4.dir), 200, 200, (float)stepMotor_4.speed, (float)stepMotor_4.angle, 0, 1);
+                        pulseOutput(stepMotor_2.dir, stepMotor_2.num, stepMotor_2.speed, stepMotor_2.angle);
+                        pulseOutput(stepMotor_3.dir, stepMotor_3.num, stepMotor_3.speed, stepMotor_3.angle);
+                        pulseOutput(stepMotor_4.dir, stepMotor_4.num, stepMotor_4.speed, stepMotor_4.angle);
                         Synchronous_motion(0);
                     }
                     else if (stepMotor_1.angle != 0 && stepMotor_2.angle == 0 && stepMotor_3.angle != 0 && stepMotor_4.angle != 0) {
-                        Traj_Position_Control(stepNumStrToData(stepMotor_1.num), stepDirStrToData(stepMotor_1.dir), 200, 200, (float)stepMotor_1.speed, (float)stepMotor_1.angle, 0, 1);
-                        Traj_Position_Control(stepNumStrToData(stepMotor_3.num), stepDirStrToData(stepMotor_3.dir), 200, 200, (float)stepMotor_3.speed, (float)stepMotor_3.angle, 0, 1);
-                        Traj_Position_Control(stepNumStrToData(stepMotor_4.num), stepDirStrToData(stepMotor_4.dir), 200, 200, (float)stepMotor_4.speed, (float)stepMotor_4.angle, 0, 1);
+                        pulseOutput(stepMotor_1.dir, stepMotor_1.num, stepMotor_1.speed, stepMotor_1.angle);
+                        pulseOutput(stepMotor_3.dir, stepMotor_3.num, stepMotor_3.speed, stepMotor_3.angle);
+                        pulseOutput(stepMotor_4.dir, stepMotor_4.num, stepMotor_4.speed, stepMotor_4.angle);
                         Synchronous_motion(0);
                     }
                     else if (stepMotor_1.angle != 0 && stepMotor_2.angle != 0 && stepMotor_3.angle == 0 && stepMotor_4.angle != 0) {
-                        Traj_Position_Control(stepNumStrToData(stepMotor_1.num), stepDirStrToData(stepMotor_1.dir), 200, 200, (float)stepMotor_1.speed, (float)stepMotor_1.angle, 0, 1);
-                        Traj_Position_Control(stepNumStrToData(stepMotor_2.num), stepDirStrToData(stepMotor_2.dir), 200, 200, (float)stepMotor_2.speed, (float)stepMotor_2.angle, 0, 1);
-                        Traj_Position_Control(stepNumStrToData(stepMotor_4.num), stepDirStrToData(stepMotor_4.dir), 200, 200, (float)stepMotor_4.speed, (float)stepMotor_4.angle, 0, 1);
+                        pulseOutput(stepMotor_1.dir, stepMotor_1.num, stepMotor_1.speed, stepMotor_1.angle);
+                        pulseOutput(stepMotor_2.dir, stepMotor_2.num, stepMotor_2.speed, stepMotor_2.angle);
+                        pulseOutput(stepMotor_4.dir, stepMotor_4.num, stepMotor_4.speed, stepMotor_4.angle);
                         Synchronous_motion(0);
                     }
                     else if (stepMotor_1.angle != 0 && stepMotor_2.angle != 0 && stepMotor_3.angle != 0 && stepMotor_4.angle == 0) {
-                        Traj_Position_Control(stepNumStrToData(stepMotor_1.num), stepDirStrToData(stepMotor_1.dir), 200, 200, (float)stepMotor_1.speed, (float)stepMotor_1.angle, 0, 1);
-                        Traj_Position_Control(stepNumStrToData(stepMotor_2.num), stepDirStrToData(stepMotor_2.dir), 200, 200, (float)stepMotor_2.speed, (float)stepMotor_2.angle, 0, 1);
-                        Traj_Position_Control(stepNumStrToData(stepMotor_3.num), stepDirStrToData(stepMotor_3.dir), 200, 200, (float)stepMotor_3.speed, (float)stepMotor_3.angle, 0, 1);
+                        pulseOutput(stepMotor_1.dir, stepMotor_1.num, stepMotor_1.speed, stepMotor_1.angle);
+                        pulseOutput(stepMotor_2.dir, stepMotor_2.num, stepMotor_2.speed, stepMotor_2.angle);
+                        pulseOutput(stepMotor_3.dir, stepMotor_3.num, stepMotor_3.speed, stepMotor_3.angle);
                         Synchronous_motion(0);
                     }
                     else if (stepMotor_1.angle == 0 && stepMotor_2.angle == 0 && stepMotor_3.angle != 0 && stepMotor_4.angle != 0) {
-                        Traj_Position_Control(stepNumStrToData(stepMotor_3.num), stepDirStrToData(stepMotor_3.dir), 200, 200, (float)stepMotor_3.speed, (float)stepMotor_3.angle, 0, 1);
-                        Traj_Position_Control(stepNumStrToData(stepMotor_4.num), stepDirStrToData(stepMotor_4.dir), 200, 200, (float)stepMotor_4.speed, (float)stepMotor_4.angle, 0, 1);
+                        pulseOutput(stepMotor_3.dir, stepMotor_3.num, stepMotor_3.speed, stepMotor_3.angle);
+                        pulseOutput(stepMotor_4.dir, stepMotor_4.num, stepMotor_4.speed, stepMotor_4.angle);
                         Synchronous_motion(0);
                     }
                     else if (stepMotor_1.angle == 0 && stepMotor_2.angle != 0 && stepMotor_3.angle == 0 && stepMotor_4.angle != 0) {
-                        Traj_Position_Control(stepNumStrToData(stepMotor_2.num), stepDirStrToData(stepMotor_2.dir), 200, 200, (float)stepMotor_2.speed, (float)stepMotor_2.angle, 0, 1);
-                        Traj_Position_Control(stepNumStrToData(stepMotor_4.num), stepDirStrToData(stepMotor_4.dir), 200, 200, (float)stepMotor_4.speed, (float)stepMotor_4.angle, 0, 1);
+                        pulseOutput(stepMotor_2.dir, stepMotor_2.num, stepMotor_2.speed, stepMotor_2.angle);
+                        pulseOutput(stepMotor_4.dir, stepMotor_4.num, stepMotor_4.speed, stepMotor_4.angle);
                         Synchronous_motion(0);
                     }
                     else if (stepMotor_1.angle == 0 && stepMotor_2.angle != 0 && stepMotor_3.angle != 0 && stepMotor_4.angle == 0) {
-                        Traj_Position_Control(stepNumStrToData(stepMotor_2.num), stepDirStrToData(stepMotor_2.dir), 200, 200, (float)stepMotor_2.speed, (float)stepMotor_2.angle, 0, 1);
-                        Traj_Position_Control(stepNumStrToData(stepMotor_3.num), stepDirStrToData(stepMotor_3.dir), 200, 200, (float)stepMotor_3.speed, (float)stepMotor_3.angle, 0, 1);
+                        pulseOutput(stepMotor_2.dir, stepMotor_2.num, stepMotor_2.speed, stepMotor_2.angle);
+                        pulseOutput(stepMotor_3.dir, stepMotor_3.num, stepMotor_3.speed, stepMotor_3.angle);
                         Synchronous_motion(0);
                     }
                     else if (stepMotor_1.angle != 0 && stepMotor_2.angle == 0 && stepMotor_3.angle == 0 && stepMotor_4.angle != 0) {
-                        Traj_Position_Control(stepNumStrToData(stepMotor_1.num), stepDirStrToData(stepMotor_1.dir), 200, 200, (float)stepMotor_1.speed, (float)stepMotor_1.angle, 0, 1);
-                        Traj_Position_Control(stepNumStrToData(stepMotor_4.num), stepDirStrToData(stepMotor_4.dir), 200, 200, (float)stepMotor_4.speed, (float)stepMotor_4.angle, 0, 1);
+                        pulseOutput(stepMotor_1.dir, stepMotor_1.num, stepMotor_1.speed, stepMotor_1.angle);
+                        pulseOutput(stepMotor_4.dir, stepMotor_4.num, stepMotor_4.speed, stepMotor_4.angle);
                         Synchronous_motion(0);
                     }
                     else if (stepMotor_1.angle != 0 && stepMotor_2.angle == 0 && stepMotor_3.angle != 0 && stepMotor_4.angle == 0) {
-                        Traj_Position_Control(stepNumStrToData(stepMotor_1.num), stepDirStrToData(stepMotor_1.dir), 200, 200, (float)stepMotor_1.speed, (float)stepMotor_1.angle, 0, 1);
-                        Traj_Position_Control(stepNumStrToData(stepMotor_3.num), stepDirStrToData(stepMotor_3.dir), 200, 200, (float)stepMotor_3.speed, (float)stepMotor_3.angle, 0, 1);
+                        pulseOutput(stepMotor_1.dir, stepMotor_1.num, stepMotor_1.speed, stepMotor_1.angle);
+                        pulseOutput(stepMotor_3.dir, stepMotor_3.num, stepMotor_3.speed, stepMotor_3.angle);
                         Synchronous_motion(0);
                     }
                     else if (stepMotor_1.angle != 0 && stepMotor_2.angle != 0 && stepMotor_3.angle == 0 && stepMotor_4.angle == 0) {
-                        Traj_Position_Control(stepNumStrToData(stepMotor_1.num), stepDirStrToData(stepMotor_1.dir), 200, 200, (float)stepMotor_1.speed, (float)stepMotor_1.angle, 0, 1);
-                        Traj_Position_Control(stepNumStrToData(stepMotor_2.num), stepDirStrToData(stepMotor_2.dir), 200, 200, (float)stepMotor_2.speed, (float)stepMotor_2.angle, 0, 1);
+                        pulseOutput(stepMotor_1.dir, stepMotor_1.num, stepMotor_1.speed, stepMotor_1.angle);
+                        pulseOutput(stepMotor_2.dir, stepMotor_2.num, stepMotor_2.speed, stepMotor_2.angle);
                         Synchronous_motion(0);
                     }
                     else if (stepMotor_1.angle == 0 && stepMotor_2.angle == 0 && stepMotor_3.angle == 0 && stepMotor_4.angle != 0) {
-                        Traj_Position_Control(stepNumStrToData(stepMotor_4.num), stepDirStrToData(stepMotor_4.dir), 200, 200, (float)stepMotor_4.speed, (float)stepMotor_4.angle, 0, 0);
+                        pulseOutput(stepMotor_4.dir, stepMotor_4.num, stepMotor_4.speed, stepMotor_4.angle);
                     }
                     else if (stepMotor_1.angle == 0 && stepMotor_2.angle == 0 && stepMotor_3.angle != 0 && stepMotor_4.angle == 0) {
-                        Traj_Position_Control(stepNumStrToData(stepMotor_3.num), stepDirStrToData(stepMotor_3.dir), 200, 200, (float)stepMotor_3.speed, (float)stepMotor_3.angle, 0, 0);
+                        pulseOutput(stepMotor_3.dir, stepMotor_3.num, stepMotor_3.speed, stepMotor_3.angle);
                     }
                     else if (stepMotor_1.angle == 0 && stepMotor_2.angle != 0 && stepMotor_3.angle == 0 && stepMotor_4.angle == 0) {
-                        Traj_Position_Control(stepNumStrToData(stepMotor_2.num), stepDirStrToData(stepMotor_2.dir), 200, 200, (float)stepMotor_2.speed, (float)stepMotor_2.angle, 0, 0);
+                        pulseOutput(stepMotor_2.dir, stepMotor_2.num, stepMotor_2.speed, stepMotor_2.angle);
                     }
                     else if (stepMotor_1.angle != 0 && stepMotor_2.angle == 0 && stepMotor_3.angle == 0 && stepMotor_4.angle == 0) {
-                        Traj_Position_Control(stepNumStrToData(stepMotor_1.num), stepDirStrToData(stepMotor_1.dir), 200, 200, (float)stepMotor_1.speed, (float)stepMotor_1.angle, 0, 0);
+                        pulseOutput(stepMotor_1.dir, stepMotor_1.num, stepMotor_1.speed, stepMotor_1.angle);
                     }
-                    udelete(10);
+                    else if (stepMotor_1.angle == 0 && stepMotor_2.angle == 0 && stepMotor_3.angle == 0 && stepMotor_4.angle == 0) {
+                        Stop_Now(0, 0);
+                    }
+                    udelete(8);
                 }
                 else if (u(1) == '0') {
                     Stop_Now(0, 0);
-                    udelete(10);
+                    udelete(8);
+                }
+            }
+            else if (u(0) == 'W') {
+                if (u(1) == '1') {
+                    Traj_Position_Control(1, 1, 200, 200, 500.0f, 0, 1, 1);
+                    Traj_Position_Control(2, 1, 200, 200, 500.0f, 0, 1, 1);
+                    Traj_Position_Control(3, 1, 200, 200, 500.0f, 0, 1, 1);
+                    Traj_Position_Control(4, 1, 200, 200, 500.0f, 0, 1, 1);
+                    Traj_Position_Control(5, 1, 200, 200, 500.0f, 0, 1, 1);
+                    Traj_Position_Control(6, 1, 200, 200, 500.0f, 0, 1, 1);
+                    Traj_Position_Control(7, 1, 200, 200, 500.0f, 0, 1, 1);
+                    Traj_Position_Control(8, 1, 200, 200, 500.0f, 0, 1, 1);
+                    Synchronous_motion(0);
+                    udelete(8);
+                }
+                else if (u(1) == '0') {
+                    Stop_Now(0, 0);
+                    udelete(8);
                 }
             }
 

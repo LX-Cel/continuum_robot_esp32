@@ -17,9 +17,6 @@ static void tcp_retransmit(const int sock)
 
     do {
         len = recv(sock, RxBuff, sizeof(RxBuff) - 1, 0);
-        for (count = 0; count < sizeof(RxBuff); count++) {
-            writeRingBuff(RxBuff[count]);
-        }
         if (len < 0) {
             ESP_LOGE(TAG, "Error occurred during receiving: errno %d", errno);      /* 记录错误信息 */
         } else if (len == 0) {                                                      /* 记录警告信息 */
@@ -36,10 +33,12 @@ static void tcp_retransmit(const int sock)
                 int written = send(sock, RxBuff + (len - to_write), to_write, 0);
                 if (written < 0) {
                     ESP_LOGE(TAG, "Error occurred during sending: errno %d", errno);    /* 记录错误信息 */
-                    // Failed to retransmit, giving up
                     return;
                 }
                 to_write -= written;
+            }
+            for (count = 0; count < sizeof(RxBuff); count++) {
+                writeRingBuff(RxBuff[count]);
             }
         }
     } while (len > 0);
@@ -183,8 +182,6 @@ static void tcp_server_task(void *pvParameters) {
         // vTaskDelay(pdMS_TO_TICKS(2000));
 
     }
-
-
 
 CLEAN_UP:
     close(listen_sock);

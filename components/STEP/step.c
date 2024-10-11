@@ -20,6 +20,7 @@ void Reset_CurPos_To_Zero(uint8_t addr) {
 
     // 发送命令
     uart_write_bytes(USART_UX, cmd, 4);
+    vTaskDelay(pdMS_TO_TICKS(10));
 }
 
 /**
@@ -38,6 +39,7 @@ void Reset_Clog_Pro(uint8_t addr) {
 
     // 发送命令
     uart_write_bytes(USART_UX, cmd, 4);
+    vTaskDelay(pdMS_TO_TICKS(10));
 }
 
 /**
@@ -109,6 +111,7 @@ void Read_Sys_Params(uint8_t addr, SysParams_t s) {
         cmd[2] = 0x6B;
         uart_write_bytes(USART_UX, cmd, 3);
     }
+    vTaskDelay(pdMS_TO_TICKS(10));
 }
 
 /**
@@ -131,6 +134,7 @@ void Modify_Ctrl_Mode(uint8_t addr, bool svF, uint8_t ctrl_mode) {
 
     // 发送命令
     uart_write_bytes(USART_UX, cmd, 6);
+    vTaskDelay(pdMS_TO_TICKS(10));
 }
 
 /**
@@ -153,6 +157,7 @@ void En_Control(uint8_t addr, bool state, uint8_t snF) {
 
     // 发送命令
     uart_write_bytes(USART_UX, cmd, 6);
+    vTaskDelay(pdMS_TO_TICKS(10));
 }
 
 /**
@@ -180,6 +185,7 @@ void Torque_Control(uint8_t addr, uint8_t sign, uint16_t t_ramp, uint16_t torque
 
     // 发送命令
     uart_write_bytes(USART_UX, cmd, 9);
+    vTaskDelay(pdMS_TO_TICKS(10));
 }
 
 /**
@@ -211,6 +217,7 @@ void Velocity_Control(uint8_t addr, uint8_t dir, uint16_t v_ramp, float velocity
 
     // 发送命令
     uart_write_bytes(USART_UX, cmd, 9);
+    vTaskDelay(pdMS_TO_TICKS(10));
 }
 
 /**
@@ -248,6 +255,7 @@ void Bypass_Position_LV_Control(uint8_t addr, uint8_t dir, float velocity, float
 
     // 发送命令
     uart_write_bytes(USART_UX, cmd, 12);
+    vTaskDelay(pdMS_TO_TICKS(10));
 }
 
 /**
@@ -256,8 +264,8 @@ void Bypass_Position_LV_Control(uint8_t addr, uint8_t dir, float velocity, float
   * @param    dir     ：方向										，0为CW，其余值为CCW
   * @param    acc     ：加速加速度(RPM/s)			，0为CW，其余值为CCW
   * @param    dec     ：减速加速度(RPM/s)			，0为CW，其余值为CCW
-  * @param    velocity：最大速度(RPM)					，范围0.0 - 4000.0RPM
-  * @param    position：位置(°)								，范围0.0°- (2^32 - 1)°
+  * @param    velocity:最大速度(RPM)					，范围0.0 - 4000.0RPM
+  * @param    position:位置(°)								，范围0.0°- (2^32 - 1)°
   * @param    raf     ：相位位置/绝对位置标志	，0为相对位置，其余值为绝对位置
   * @param    snF     ：多机同步标志						，0为不启用，其余值启用
   * @retval   地址 + 功能码 + 命令状态 + 校验字节
@@ -291,8 +299,8 @@ void Traj_Position_Control(uint8_t addr, uint8_t dir, uint16_t acc, uint16_t dec
     cmd[15] = 0x6B; // 校验字节
 
     // 发送命令
-    vTaskDelay(pdMS_TO_TICKS(10));
     uart_write_bytes(USART_UX, cmd, 16);
+    vTaskDelay(pdMS_TO_TICKS(10));
 }
 
 /**
@@ -313,6 +321,7 @@ void Stop_Now(uint8_t addr, uint8_t snF) {
 
     // 发送命令
     uart_write_bytes(USART_UX, cmd, 5);
+    vTaskDelay(pdMS_TO_TICKS(10));
 }
 
 /**
@@ -331,6 +340,7 @@ void Synchronous_motion(uint8_t addr) {
 
     // 发送命令
     uart_write_bytes(USART_UX, cmd, 4);
+    vTaskDelay(pdMS_TO_TICKS(10));
 }
 
 /**
@@ -351,6 +361,7 @@ void Origin_Set_O(uint8_t addr, bool svF) {
 
     // 发送命令
     uart_write_bytes(USART_UX, cmd, 5);
+    vTaskDelay(pdMS_TO_TICKS(10));
 }
 
 /**
@@ -395,6 +406,7 @@ void Origin_Modify_Params(uint8_t addr, bool svF, uint8_t o_mode, uint8_t o_dir,
 
     // 发送命令
     uart_write_bytes(USART_UX, cmd, 20);
+    vTaskDelay(pdMS_TO_TICKS(10));
 }
 
 /**
@@ -416,6 +428,7 @@ void Origin_Trigger_Return(uint8_t addr, uint8_t o_mode, bool snF) {
 
     // 发送命令
     uart_write_bytes(USART_UX, cmd, 5);
+    vTaskDelay(pdMS_TO_TICKS(10));
 }
 
 /**
@@ -434,6 +447,7 @@ void Origin_Interrupt(uint8_t addr) {
 
     // 发送命令
     uart_write_bytes(USART_UX, cmd, 4);
+    vTaskDelay(pdMS_TO_TICKS(10));
 }
 
 /**
@@ -492,4 +506,151 @@ uint32_t stepDirStrToData(uint32_t stepDirStr) {
             break;
     }
     return stepDirData;
+}
+
+void pulseOutput(uint32_t stepDir, uint32_t stepNum, uint32_t vel, uint32_t angle) {
+    if (stepNum == '1' || stepNum == '2') {
+        stepRotate_1_2(stepDir, vel, angle);
+    } else if (stepNum == '3' || stepNum == '4') {
+        stepRotate_3_4(stepDir, vel, angle);
+    } else if (stepNum == '5' || stepNum == '6') {
+        stepRotate_5_6(stepDir, vel, angle);
+    } else if (stepNum == '7' || stepNum == '8') {
+        stepRotate_7_8(stepDir, vel, angle);
+    }
+}
+
+void stepRotate_1_2(uint32_t stepDir, uint32_t vel, uint32_t angle) {
+    if (stepDir == '1') {
+        Traj_Position_Control(1, 1, 200, 200, (float) vel, (float) angle, 0, 1);
+        Traj_Position_Control(2, 0, 200, 200, (float) vel, (float) angle, 0, 1);
+    } else if (stepDir == '0') {
+        Traj_Position_Control(1, 0, 200, 200, (float) vel, (float) angle, 0, 1);
+        Traj_Position_Control(2, 1, 200, 200, (float) vel, (float) angle, 0, 1);
+    }
+}
+
+void stepRotate_3_4(uint32_t stepDir, uint32_t vel, uint32_t angle) {
+    if (stepDir == '1') {
+        Traj_Position_Control(3, 1, 200, 200, (float) vel, (float) angle, 0, 1);
+        Traj_Position_Control(4, 0, 200, 200, (float) vel, (float) angle, 0, 1);
+    } else if (stepDir == '0') {
+        Traj_Position_Control(3, 0, 200, 200, (float) vel, (float) angle, 0, 1);
+        Traj_Position_Control(4, 1, 200, 200, (float) vel, (float) angle, 0, 1);
+    }
+}
+
+void stepRotate_5_6(uint32_t stepDir, uint32_t vel, uint32_t angle) {
+    if (stepDir == '1') {
+        Traj_Position_Control(5, 1, 200, 200, (float) vel, (float) angle, 0, 1);
+        Traj_Position_Control(6, 0, 200, 200, (float) vel, (float) angle, 0, 1);
+    } else if (stepDir == '0') {
+        Traj_Position_Control(5, 0, 200, 200, (float) vel, (float) angle, 0, 1);
+        Traj_Position_Control(6, 1, 200, 200, (float) vel, (float) angle, 0, 1);
+    }
+}
+
+void stepRotate_7_8(uint32_t stepDir, uint32_t vel, uint32_t angle) {
+    if (stepDir == '1') {
+        Traj_Position_Control(7, 1, 200, 200, (float) vel, (float) angle, 0, 1);
+        Traj_Position_Control(8, 0, 200, 200, (float) vel, (float) angle, 0, 1);
+    } else if (stepDir == '0') {
+        Traj_Position_Control(7, 0, 200, 200, (float) vel, (float) angle, 0, 1);
+        Traj_Position_Control(8, 1, 200, 200, (float) vel, (float) angle, 0, 1);
+    }
+}
+
+void stepRotate_1(uint32_t stepDir, uint32_t vel, uint32_t angle) {
+    if (stepDir == '1') {
+        Traj_Position_Control(1, 1, 200, 200, (float) vel, (float) angle, 0, 0);
+    } else if (stepDir == '0') {
+        Traj_Position_Control(1, 0, 200, 200, (float) vel, (float) angle, 0, 0);
+    }
+}
+
+void stepRotate_2(uint32_t stepDir, uint32_t vel, uint32_t angle) {
+    if (stepDir == '1') {
+        Traj_Position_Control(2, 1, 200, 200, (float) vel, (float) angle, 0, 0);
+    } else if (stepDir == '0') {
+        Traj_Position_Control(2, 0, 200, 200, (float) vel, (float) angle, 0, 0);
+    }
+}
+
+void stepRotate_3(uint32_t stepDir, uint32_t vel, uint32_t angle) {
+    if (stepDir == '1') {
+        Traj_Position_Control(3, 1, 200, 200, (float) vel, (float) angle, 0, 0);
+    } else if (stepDir == '0') {
+        Traj_Position_Control(3, 0, 200, 200, (float) vel, (float) angle, 0, 0);
+    }
+}
+
+void stepRotate_4(uint32_t stepDir, uint32_t vel, uint32_t angle) {
+    if (stepDir == '1') {
+        Traj_Position_Control(4, 1, 200, 200, (float) vel, (float) angle, 0, 0);
+    } else if (stepDir == '0') {
+        Traj_Position_Control(4, 0, 200, 200, (float) vel, (float) angle, 0, 0);
+    }
+}
+
+void stepRotate_5(uint32_t stepDir, uint32_t vel, uint32_t angle) {
+    if (stepDir == '1') {
+        Traj_Position_Control(5, 1, 200, 200, (float) vel, (float) angle, 0, 0);
+    } else if (stepDir == '0') {
+        Traj_Position_Control(5, 0, 200, 200, (float) vel, (float) angle, 0, 0);
+    }
+}
+
+void stepRotate_6(uint32_t stepDir, uint32_t vel, uint32_t angle) {
+    if (stepDir == '1') {
+        Traj_Position_Control(6, 1, 200, 200, (float) vel, (float) angle, 0, 0);
+    } else if (stepDir == '0') {
+        Traj_Position_Control(6, 0, 200, 200, (float) vel, (float) angle, 0, 0);
+    }
+}
+
+void stepRotate_7(uint32_t stepDir, uint32_t vel, uint32_t angle) {
+    if (stepDir == '1') {
+        Traj_Position_Control(7, 1, 200, 200, (float) vel, (float) angle, 0, 0);
+    } else if (stepDir == '0') {
+        Traj_Position_Control(7, 0, 200, 200, (float) vel, (float) angle, 0, 0);
+    }
+}
+
+void stepRotate_8(uint32_t stepDir, uint32_t vel, uint32_t angle) {
+    if (stepDir == '1') {
+        Traj_Position_Control(8, 1, 200, 200, (float) vel, (float) angle, 0, 0);
+    } else if (stepDir == '0') {
+        Traj_Position_Control(8, 0, 200, 200, (float) vel, (float) angle, 0, 0);
+    }
+}
+
+void pulseOutput_single(uint32_t stepDir, uint32_t vel, uint32_t angle, uint32_t stepNum) {
+    switch (stepNum) {
+        case '1':
+            stepRotate_1(stepDir, vel, angle);
+        break;
+        case '2':
+            stepRotate_2(stepDir, vel, angle);
+        break;
+        case '3':
+            stepRotate_3(stepDir, vel, angle);
+        break;
+        case '4':
+            stepRotate_4(stepDir, vel, angle);
+        break;
+        case '5':
+            stepRotate_5(stepDir, vel, angle);
+        break;
+        case '6':
+            stepRotate_6(stepDir, vel, angle);
+        break;
+        case '7':
+            stepRotate_7(stepDir, vel, angle);
+        break;
+        case '8':
+            stepRotate_8(stepDir, vel, angle);
+        break;
+        default:
+            break;
+    }
 }

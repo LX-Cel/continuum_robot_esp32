@@ -7,7 +7,7 @@
 
 #include <stdio.h>
 
-#define RINGBUFF_LEN 500  /* 定义环形缓冲区长度 */
+#define RINGBUFF_LEN 10000  /* 定义环形缓冲区长度 */
 #define usize getRingBuffLenght()
 #define code_c() initRingBuff()
 #define udelete(x) deleteRingBuff(x)
