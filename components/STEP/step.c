@@ -3,6 +3,12 @@
 //
 #include "step.h"
 
+StepMotor_t stepMotor;
+
+StepMotor_t stepMotor_1;
+StepMotor_t stepMotor_2;
+StepMotor_t stepMotor_3;
+StepMotor_t stepMotor_4;
 
 /**
   * @brief    将当前位置清零
@@ -118,7 +124,7 @@ void Read_Sys_Params(uint8_t addr, SysParams_t s) {
   * @brief    修改开环/闭环控制模式
   * @param    addr     ：电机地址
   * @param    svF      ：是否存储标志，false为不存储，true为存储
-  * @param    ctrl_mode：控制模式（对应屏幕上的P_Pul菜单），0是关闭脉冲输入引脚，1是开环模式，2是闭环模式，3是让En端口复用为多圈限位开关输入引脚，Dir端口复用为到位输出高电平功能
+  * @param    ctrl_mode:控制模式（对应屏幕上的P_Pul菜单），0是关闭脉冲输入引脚，1是开环模式，2是闭环模式，3是让En端口复用为多圈限位开关输入引脚，Dir端口复用为到位输出高电平功能
   * @retval   地址 + 功能码 + 命令状态 + 校验字节
   */
 void Modify_Ctrl_Mode(uint8_t addr, bool svF, uint8_t ctrl_mode) {
@@ -164,8 +170,8 @@ void En_Control(uint8_t addr, bool state, uint8_t snF) {
   * @brief    力矩模式
   * @param    addr  ：电机地址
   * @param    sign  ：符号         ，0为正，其余值为负
-  * @param    t_ramp：斜率(Ma/s)   ，范围0 - 65535Ma/s
-  * @param    torque：力矩(Ma)     ，范围0 - 4000Ma
+  * @param    t_ramp:斜率(Ma/s)   ，范围0 - 65535Ma/s
+  * @param    torque:力矩(Ma)     ，范围0 - 4000Ma
   * @param    snF   ：多机同步标志 ，0为不启用，其余值启用
   * @retval   地址 + 功能码 + 命令状态 + 校验字节
   */
@@ -193,7 +199,7 @@ void Torque_Control(uint8_t addr, uint8_t sign, uint16_t t_ramp, uint16_t torque
   * @param    addr  	：电机地址
   * @param    dir     ：方向         ，0为CW，其余值为CCW
   * @param    v_ramp  ：斜率(RPM/s)  ，范围0 - 65535RPM/s
-  * @param    velocity：速度(RPM)    ，范围0.0 - 4000.0RPM
+  * @param    velocity:速度(RPM)    ，范围0.0 - 4000.0RPM
   * @param    snF     ：多机同步标志 ，0为不启用，其余值启用
   * @retval   地址 + 功能码 + 命令状态 + 校验字节
   */
@@ -222,12 +228,12 @@ void Velocity_Control(uint8_t addr, uint8_t dir, uint16_t v_ramp, float velocity
 
 /**
   * @brief    直通限速位置模式
-  * @param    addr  	：电机地址
-  * @param    dir     ：方向										，0为CW，其余值为CCW
-  * @param    velocity：最大速度(RPM)					，范围0.0 - 4000.0RPM
-  * @param    position：位置(°)								，范围0.0°- (2^32 - 1)°
-  * @param    raf     ：相位位置/绝对位置标志	，0为相对位置，其余值为绝对位置
-  * @param    snF     ：多机同步标志						，0为不启用，其余值启用
+  * @param    addr      ：电机地址
+  * @param    dir       ：方向										，0为CW，其余值为CCW
+  * @param    velocity  ：最大速度(RPM)					，范围0.0 - 4000.0RPM
+  * @param    position  ：位置(°)								，范围0.0°- (2^32 - 1)°
+  * @param    raf       ：相位位置/绝对位置标志	，0为相对位置，其余值为绝对位置
+  * @param    snF       ：多机同步标志						，0为不启用，其余值启用
   * @retval   地址 + 功能码 + 命令状态 + 校验字节
   */
 void Bypass_Position_LV_Control(uint8_t addr, uint8_t dir, float velocity, float position, uint8_t raf, uint8_t snF) {
@@ -508,6 +514,13 @@ uint32_t stepDirStrToData(uint32_t stepDirStr) {
     return stepDirData;
 }
 
+/**
+  * @brief    控制对应组别的电机进行转动，其中1号和2号电机为一组，分别位于正对的位置上
+  * @param    stepDir  ：电机方向代表的字符，'1'表示正转，'2'表示反转
+  * @param    stepNum  ：电机编号代表的字符
+  * @param    angle    ：电机转动角度的数值
+  * @retval   无
+  */
 void pulseOutput(uint32_t stepDir, uint32_t stepNum, uint32_t vel, uint32_t angle) {
     if (stepNum == '1' || stepNum == '2') {
         stepRotate_1_2(stepDir, vel, angle);
@@ -520,6 +533,13 @@ void pulseOutput(uint32_t stepDir, uint32_t stepNum, uint32_t vel, uint32_t angl
     }
 }
 
+/**
+  * @brief    控制第一组即1号和2号电机进行转动
+  * @param    stepDir  ：电机方向代表的字符，'1'表示正转，'2'表示反转
+  * @param    vel      ：电机转速的数值
+  * @param    angle    ：电机转动角度的数值
+  * @retval   无
+  */
 void stepRotate_1_2(uint32_t stepDir, uint32_t vel, uint32_t angle) {
     if (stepDir == '1') {
         Traj_Position_Control(1, 1, 200, 200, (float) vel, (float) angle, 0, 1);
@@ -530,6 +550,13 @@ void stepRotate_1_2(uint32_t stepDir, uint32_t vel, uint32_t angle) {
     }
 }
 
+/**
+  * @brief    控制第二组即3号和4号电机进行转动
+  * @param    stepDir  ：电机方向代表的字符，'1'表示正转，'2'表示反转
+  * @param    vel      ：电机转速的数值
+  * @param    angle    ：电机转动角度的数值
+  * @retval   无
+  */
 void stepRotate_3_4(uint32_t stepDir, uint32_t vel, uint32_t angle) {
     if (stepDir == '1') {
         Traj_Position_Control(3, 1, 200, 200, (float) vel, (float) angle, 0, 1);
@@ -540,6 +567,13 @@ void stepRotate_3_4(uint32_t stepDir, uint32_t vel, uint32_t angle) {
     }
 }
 
+/**
+  * @brief    控制第三组即5号和6号电机进行转动
+  * @param    stepDir  ：电机方向代表的字符，'1'表示正转，'2'表示反转
+  * @param    vel      ：电机转速的数值
+  * @param    angle    ：电机转动角度的数值
+  * @retval   无
+  */
 void stepRotate_5_6(uint32_t stepDir, uint32_t vel, uint32_t angle) {
     if (stepDir == '1') {
         Traj_Position_Control(5, 1, 200, 200, (float) vel, (float) angle, 0, 1);
@@ -550,6 +584,13 @@ void stepRotate_5_6(uint32_t stepDir, uint32_t vel, uint32_t angle) {
     }
 }
 
+/**
+  * @brief    控制第四组即7号和8号电机进行转动
+  * @param    stepDir  ：电机方向代表的字符，'1'表示正转，'2'表示反转
+  * @param    vel      ：电机转速的数值
+  * @param    angle    ：电机转动角度的数值
+  * @retval   无
+  */
 void stepRotate_7_8(uint32_t stepDir, uint32_t vel, uint32_t angle) {
     if (stepDir == '1') {
         Traj_Position_Control(7, 1, 200, 200, (float) vel, (float) angle, 0, 1);
@@ -628,29 +669,54 @@ void pulseOutput_single(uint32_t stepDir, uint32_t vel, uint32_t angle, uint32_t
     switch (stepNum) {
         case '1':
             stepRotate_1(stepDir, vel, angle);
-        break;
+            break;
         case '2':
             stepRotate_2(stepDir, vel, angle);
-        break;
+            break;
         case '3':
             stepRotate_3(stepDir, vel, angle);
-        break;
+            break;
         case '4':
             stepRotate_4(stepDir, vel, angle);
-        break;
+            break;
         case '5':
             stepRotate_5(stepDir, vel, angle);
-        break;
+            break;
         case '6':
             stepRotate_6(stepDir, vel, angle);
-        break;
+            break;
         case '7':
             stepRotate_7(stepDir, vel, angle);
-        break;
+            break;
         case '8':
             stepRotate_8(stepDir, vel, angle);
-        break;
+            break;
         default:
             break;
     }
+}
+
+void stepDataInit(void) {
+    stepMotor.speed = 0;
+    stepMotor.angle = 0;
+}
+
+void stepDataInit_1(void) {
+    stepMotor_1.speed = 0;
+    stepMotor_1.angle = 0;
+}
+
+void stepDataInit_2(void) {
+    stepMotor_2.speed = 0;
+    stepMotor_2.angle = 0;
+}
+
+void stepDataInit_3(void) {
+    stepMotor_3.speed = 0;
+    stepMotor_3.angle = 0;
+}
+
+void stepDataInit_4(void) {
+    stepMotor_4.speed = 0;
+    stepMotor_4.angle = 0;
 }

@@ -43,22 +43,23 @@ void start_main_task(void *pvParameters)
     // str[3] = 0x04;
     initRingBuff();
 
-    StepMotor_t stepMotor;
 
-    StepMotor_t stepMotor_1;
-    StepMotor_t stepMotor_2;
-    StepMotor_t stepMotor_3;
-    StepMotor_t stepMotor_4;
 
     while (1)
     {
-        // char str[6];
-        // char str_1[6];
+        char str[6];
+        char str_1[6];
 
         initDataPos();
         initDataPosMul();
         initGetResult();
         initGetResultMul();
+
+        stepDataInit();
+        stepDataInit_1();
+        stepDataInit_2();
+        stepDataInit_3();
+        stepDataInit_4();
 
         isDataTrue();
 
@@ -75,8 +76,12 @@ void start_main_task(void *pvParameters)
                     stepMotor.angle = getResult.result_2;
 
                     // 将数字转换为字符
-                    // sprintf(str, "%d", getResult.result_1);
-                    // sprintf(str_1, "%d", getResult.result_2);
+                    sprintf(str, "%d", getResult.result_1);
+                    sprintf(str_1, "%d", getResult.result_2);
+
+                    send(sock, str, sizeof(str), 0);
+                    send(sock, str_1, sizeof(str), 0);
+
                     if (stepMotor.angle != 0) {
                         pulseOutput_single(stepMotor.dir, stepMotor.speed, stepMotor.angle, stepMotor.num);
                     }
@@ -186,9 +191,6 @@ void start_main_task(void *pvParameters)
                     }
                     else if (stepMotor_1.angle != 0 && stepMotor_2.angle == 0 && stepMotor_3.angle == 0 && stepMotor_4.angle == 0) {
                         pulseOutput(stepMotor_1.dir, stepMotor_1.num, stepMotor_1.speed, stepMotor_1.angle);
-                    }
-                    else if (stepMotor_1.angle == 0 && stepMotor_2.angle == 0 && stepMotor_3.angle == 0 && stepMotor_4.angle == 0) {
-                        Stop_Now(0, 0);
                     }
                     udelete(8);
                 }

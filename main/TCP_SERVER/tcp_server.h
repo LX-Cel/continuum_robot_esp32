@@ -29,6 +29,8 @@
 #define KEEPALIVE_INTERVAL          CONFIG_KEEPALIVE_INTERVAL   /* 配置TCP连接的检测时间 */
 #define KEEPALIVE_COUNT             CONFIG_KEEPALIVE_COUNT      /* 配置TCP连接的检测次数 */
 
+extern int sock;
+
 void tcp_task_start();
 esp_err_t send_message(char* buf, int _size);
 

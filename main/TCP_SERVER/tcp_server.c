@@ -6,7 +6,7 @@
 #include "data_rev.h"
 
 static const char *TAG = "TCP_SERVER";
-int sock = 0;
+int sock;
 static int listen_sock;
 
 static void tcp_retransmit(const int sock)
@@ -16,28 +16,28 @@ static void tcp_retransmit(const int sock)
     int len;
 
     do {
-        len = recv(sock, RxBuff, sizeof(RxBuff) - 1, 0);
+        len = recv(sock, RxBuff, sizeof(RxBuff), 0);
         if (len < 0) {
             ESP_LOGE(TAG, "Error occurred during receiving: errno %d", errno);      /* 记录错误信息 */
         } else if (len == 0) {                                                      /* 记录警告信息 */
             ESP_LOGW(TAG, "Connection closed");
         } else {
-            RxBuff[len] = 0;                                                     /* 将接收到的内容以空字符终止，并将其视为字符串 */
+            // RxBuff[len] = 0;                                                     /* 将接收到的内容以空字符终止，并将其视为字符串 */
             // ESP_LOGI(TAG, "Received %d bytes: %s", len, RxBuff);                 /* 记录接收到的数据 */
 
             /*send 函数在发送数据时，可能由于网络拥塞或其他原因，无法一次性发送所有提供的数据。
              *为了确保所有数据都被发送，需要在一个循环中反复调用 send，直到所有数据都发送完毕
              */
-            int to_write = len;
-            while (to_write > 0) {
-                int written = send(sock, RxBuff + (len - to_write), to_write, 0);
-                if (written < 0) {
-                    ESP_LOGE(TAG, "Error occurred during sending: errno %d", errno);    /* 记录错误信息 */
-                    return;
-                }
-                to_write -= written;
-            }
-            for (count = 0; count < sizeof(RxBuff); count++) {
+            // int to_write = len;
+            // while (to_write > 0) {
+            //     int written = send(sock, RxBuff + (len - to_write), to_write, 0);
+            //     if (written < 0) {
+            //         ESP_LOGE(TAG, "Error occurred during sending: errno %d", errno);    /* 记录错误信息 */
+            //         return;
+            //     }
+            //     to_write -= written;
+            // }
+            for (count = 0; count < len; count++) {
                 writeRingBuff(RxBuff[count]);
             }
         }
@@ -143,7 +143,7 @@ static void tcp_server_task(void *pvParameters) {
 
         struct sockaddr_storage source_addr; // Large enough for both IPv4 or IPv6
         socklen_t addr_len = sizeof(source_addr);
-        int sock = accept(listen_sock, (struct sockaddr *) &source_addr, &addr_len);
+        sock = accept(listen_sock, (struct sockaddr *) &source_addr, &addr_len);
         if (sock < 0) {
             ESP_LOGE(TAG, "Unable to accept connection: errno %d", errno);
             break;
@@ -180,12 +180,13 @@ static void tcp_server_task(void *pvParameters) {
         shutdown(sock, 0);
         close(sock);
         // vTaskDelay(pdMS_TO_TICKS(2000));
-
+        vTaskDelay(pdMS_TO_TICKS(100));
     }
 
 CLEAN_UP:
     close(listen_sock);
     vTaskDelete(NULL);
+
 }
 
 void tcp_task_start() {

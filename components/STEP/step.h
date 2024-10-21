@@ -16,6 +16,13 @@ typedef struct {
     uint32_t dir;
 } StepMotor_t;
 
+extern StepMotor_t stepMotor;
+
+extern StepMotor_t stepMotor_1;
+extern StepMotor_t stepMotor_2;
+extern StepMotor_t stepMotor_3;
+extern StepMotor_t stepMotor_4;
+
 typedef enum {
     S_VER   = 0,      /* 读取固件版本和对应的硬件版本 */
     S_RL    = 1,      /* 读取读取相电阻和相电感 */
@@ -71,6 +78,11 @@ void stepRotate_6(uint32_t stepDir, uint32_t vel, uint32_t angle);
 void stepRotate_7(uint32_t stepDir, uint32_t vel, uint32_t angle);
 void stepRotate_8(uint32_t stepDir, uint32_t vel, uint32_t angle);
 void pulseOutput_single(uint32_t stepDir, uint32_t vel, uint32_t angle, uint32_t stepNum);
+void stepDataInit(void);
+void stepDataInit_1(void);
+void stepDataInit_2(void);
+void stepDataInit_3(void);
+void stepDataInit_4(void);
 
 
 
