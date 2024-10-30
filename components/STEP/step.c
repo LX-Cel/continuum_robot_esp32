@@ -518,6 +518,7 @@ uint32_t stepDirStrToData(uint32_t stepDirStr) {
   * @brief    控制对应组别的电机进行转动，其中1号和2号电机为一组，分别位于正对的位置上
   * @param    stepDir  ：电机方向代表的字符，'1'表示正转，'2'表示反转
   * @param    stepNum  ：电机编号代表的字符
+  * @param    vel      ：电机转速的数值
   * @param    angle    ：电机转动角度的数值
   * @retval   无
   */
@@ -601,6 +602,13 @@ void stepRotate_7_8(uint32_t stepDir, uint32_t vel, uint32_t angle) {
     }
 }
 
+/**
+  * @brief    控制1号电机进行转动
+  * @param    stepDir  ：电机方向代表的字符，'1'表示正转，'2'表示反转
+  * @param    vel      ：电机转速的数值
+  * @param    angle    ：电机转动角度的数值
+  * @retval   无
+  */
 void stepRotate_1(uint32_t stepDir, uint32_t vel, uint32_t angle) {
     if (stepDir == '1') {
         Traj_Position_Control(1, 1, 200, 200, (float) vel, (float) angle, 0, 0);
@@ -609,6 +617,13 @@ void stepRotate_1(uint32_t stepDir, uint32_t vel, uint32_t angle) {
     }
 }
 
+/**
+  * @brief    控制2号电机进行转动
+  * @param    stepDir  ：电机方向代表的字符，'1'表示正转，'2'表示反转
+  * @param    vel      ：电机转速的数值
+  * @param    angle    ：电机转动角度的数值
+  * @retval   无
+  */
 void stepRotate_2(uint32_t stepDir, uint32_t vel, uint32_t angle) {
     if (stepDir == '1') {
         Traj_Position_Control(2, 1, 200, 200, (float) vel, (float) angle, 0, 0);
@@ -617,6 +632,13 @@ void stepRotate_2(uint32_t stepDir, uint32_t vel, uint32_t angle) {
     }
 }
 
+/**
+  * @brief    控制3号电机进行转动
+  * @param    stepDir  ：电机方向代表的字符，'1'表示正转，'2'表示反转
+  * @param    vel      ：电机转速的数值
+  * @param    angle    ：电机转动角度的数值
+  * @retval   无
+  */
 void stepRotate_3(uint32_t stepDir, uint32_t vel, uint32_t angle) {
     if (stepDir == '1') {
         Traj_Position_Control(3, 1, 200, 200, (float) vel, (float) angle, 0, 0);
@@ -625,6 +647,13 @@ void stepRotate_3(uint32_t stepDir, uint32_t vel, uint32_t angle) {
     }
 }
 
+/**
+  * @brief    控制4号电机进行转动
+  * @param    stepDir  ：电机方向代表的字符，'1'表示正转，'2'表示反转
+  * @param    vel      ：电机转速的数值
+  * @param    angle    ：电机转动角度的数值
+  * @retval   无
+  */
 void stepRotate_4(uint32_t stepDir, uint32_t vel, uint32_t angle) {
     if (stepDir == '1') {
         Traj_Position_Control(4, 1, 200, 200, (float) vel, (float) angle, 0, 0);
@@ -633,6 +662,13 @@ void stepRotate_4(uint32_t stepDir, uint32_t vel, uint32_t angle) {
     }
 }
 
+/**
+  * @brief    控制5号电机进行转动
+  * @param    stepDir  ：电机方向代表的字符，'1'表示正转，'2'表示反转
+  * @param    vel      ：电机转速的数值
+  * @param    angle    ：电机转动角度的数值
+  * @retval   无
+  */
 void stepRotate_5(uint32_t stepDir, uint32_t vel, uint32_t angle) {
     if (stepDir == '1') {
         Traj_Position_Control(5, 1, 200, 200, (float) vel, (float) angle, 0, 0);
@@ -641,6 +677,13 @@ void stepRotate_5(uint32_t stepDir, uint32_t vel, uint32_t angle) {
     }
 }
 
+/**
+  * @brief    控制6号电机进行转动
+  * @param    stepDir  ：电机方向代表的字符，'1'表示正转，'2'表示反转
+  * @param    vel      ：电机转速的数值
+  * @param    angle    ：电机转动角度的数值
+  * @retval   无
+  */
 void stepRotate_6(uint32_t stepDir, uint32_t vel, uint32_t angle) {
     if (stepDir == '1') {
         Traj_Position_Control(6, 1, 200, 200, (float) vel, (float) angle, 0, 0);
@@ -649,6 +692,13 @@ void stepRotate_6(uint32_t stepDir, uint32_t vel, uint32_t angle) {
     }
 }
 
+/**
+  * @brief    控制7号电机进行转动
+  * @param    stepDir  ：电机方向代表的字符，'1'表示正转，'2'表示反转
+  * @param    vel      ：电机转速的数值
+  * @param    angle    ：电机转动角度的数值
+  * @retval   无
+  */
 void stepRotate_7(uint32_t stepDir, uint32_t vel, uint32_t angle) {
     if (stepDir == '1') {
         Traj_Position_Control(7, 1, 200, 200, (float) vel, (float) angle, 0, 0);
@@ -657,6 +707,13 @@ void stepRotate_7(uint32_t stepDir, uint32_t vel, uint32_t angle) {
     }
 }
 
+/**
+  * @brief    控制8号电机进行转动
+  * @param    stepDir  ：电机方向代表的字符，'1'表示正转，'2'表示反转
+  * @param    vel      ：电机转速的数值
+  * @param    angle    ：电机转动角度的数值
+  * @retval   无
+  */
 void stepRotate_8(uint32_t stepDir, uint32_t vel, uint32_t angle) {
     if (stepDir == '1') {
         Traj_Position_Control(8, 1, 200, 200, (float) vel, (float) angle, 0, 0);
@@ -665,6 +722,14 @@ void stepRotate_8(uint32_t stepDir, uint32_t vel, uint32_t angle) {
     }
 }
 
+/**
+  * @brief    控制对应编号的电机进行转动
+  * @param    stepDir  ：电机方向代表的字符，'1'表示正转，'2'表示反转
+  * @param    vel      ：电机转速的数值
+  * @param    angle    ：电机转动角度的数值
+  * @param    stepNum  ：电机编号代表的字符
+  * @retval   无
+  */
 void pulseOutput_single(uint32_t stepDir, uint32_t vel, uint32_t angle, uint32_t stepNum) {
     switch (stepNum) {
         case '1':
@@ -696,26 +761,51 @@ void pulseOutput_single(uint32_t stepDir, uint32_t vel, uint32_t angle, uint32_t
     }
 }
 
+/**
+  * @brief    初始化单电机控制时的结构体变量
+  * @param    无
+  * @retval   无
+  */
 void stepDataInit(void) {
     stepMotor.speed = 0;
     stepMotor.angle = 0;
 }
 
+/**
+  * @brief    初始化第一组电机控制时的结构体变量
+  * @param    无
+  * @retval   无
+  */
 void stepDataInit_1(void) {
     stepMotor_1.speed = 0;
     stepMotor_1.angle = 0;
 }
 
+/**
+  * @brief    初始化第二组电机控制时的结构体变量
+  * @param    无
+  * @retval   无
+  */
 void stepDataInit_2(void) {
     stepMotor_2.speed = 0;
     stepMotor_2.angle = 0;
 }
 
+/**
+  * @brief    初始化第三组电机控制时的结构体变量
+  * @param    无
+  * @retval   无
+  */
 void stepDataInit_3(void) {
     stepMotor_3.speed = 0;
     stepMotor_3.angle = 0;
 }
 
+/**
+  * @brief    初始化第四组电机控制时的结构体变量
+  * @param    无
+  * @retval   无
+  */
 void stepDataInit_4(void) {
     stepMotor_4.speed = 0;
     stepMotor_4.angle = 0;
