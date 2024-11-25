@@ -217,6 +217,7 @@ void dataDivisionMul(void) {
 }
 
 void convertResult(void) {
+
     for (int l = dataPos.count_1 + 1; l < dataPos.count_2; l++) {
         getResult.result_1 = getResult.result_1 * 10 + (u(l) - '0'); // 将字符转换为数字，并存入result
     }
@@ -227,6 +228,7 @@ void convertResult(void) {
 }
 
 void convertResultMul(void) {
+
     for (int l = dataPosMul.countMul_1 + 1; l < dataPosMul.countMul_2; l++) {
         getResultMul.resultMul_1 = getResultMul.resultMul_1 * 10 + (u(l) - '0'); // 将字符转换为数字，并存入result
     }

@@ -180,7 +180,7 @@ static void tcp_server_task(void *pvParameters) {
         shutdown(sock, 0);
         close(sock);
         // vTaskDelay(pdMS_TO_TICKS(2000));
-        vTaskDelay(pdMS_TO_TICKS(100));
+        vTaskDelay(pdMS_TO_TICKS(10));
     }
 
 CLEAN_UP:

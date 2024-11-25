@@ -28,46 +28,45 @@ void app_main(void)
     ESP_ERROR_CHECK(ret);
 
     // 此处开始为蓝牙配置
-    ESP_ERROR_CHECK(esp_bt_controller_mem_release(ESP_BT_MODE_CLASSIC_BT));
-    ret = esp_bt_controller_init(&bt_cfg);
-    if (ret) {
-        ESP_LOGE(GATTS_TABLE_TAG, "%s enable controller failed: %s", __func__, esp_err_to_name(ret));
-        return;
-    }
-
-    ret = esp_bt_controller_enable(ESP_BT_MODE_BLE);
-    if (ret) {
-        ESP_LOGE(GATTS_TABLE_TAG, "%s enable controller failed: %s", __func__, esp_err_to_name(ret));
-        return;
-    }
-
-    ESP_LOGI(GATTS_TABLE_TAG, "%s init bluetooth", __func__);
-    esp_bluedroid_config_t bluedroid_cfg = BT_BLUEDROID_INIT_CONFIG_DEFAULT();
-    ret = esp_bluedroid_init_with_cfg(&bluedroid_cfg);
-    if (ret) {
-        ESP_LOGE(GATTS_TABLE_TAG, "%s init bluetooth failed: %s", __func__, esp_err_to_name(ret));
-        return;
-    }
-
-    ret = esp_bluedroid_enable();
-    if (ret) {
-        ESP_LOGE(GATTS_TABLE_TAG, "%s enable bluetooth failed: %s", __func__, esp_err_to_name(ret));
-        return;
-    }
-
-    esp_ble_gatts_register_callback(gatts_event_handler);
-    esp_ble_gap_register_callback(gap_event_handler);
-    esp_ble_gatts_app_register(ESP_SPP_APP_ID);
-
-    spp_task_init();
+    // ESP_ERROR_CHECK(esp_bt_controller_mem_release(ESP_BT_MODE_CLASSIC_BT));
+    // ret = esp_bt_controller_init(&bt_cfg);
+    // if (ret) {
+    //     ESP_LOGE(GATTS_TABLE_TAG, "%s enable controller failed: %s", __func__, esp_err_to_name(ret));
+    //     return;
+    // }
+    //
+    // ret = esp_bt_controller_enable(ESP_BT_MODE_BLE);
+    // if (ret) {
+    //     ESP_LOGE(GATTS_TABLE_TAG, "%s enable controller failed: %s", __func__, esp_err_to_name(ret));
+    //     return;
+    // }
+    //
+    // ESP_LOGI(GATTS_TABLE_TAG, "%s init bluetooth", __func__);
+    // esp_bluedroid_config_t bluedroid_cfg = BT_BLUEDROID_INIT_CONFIG_DEFAULT();
+    // ret = esp_bluedroid_init_with_cfg(&bluedroid_cfg);
+    // if (ret) {
+    //     ESP_LOGE(GATTS_TABLE_TAG, "%s init bluetooth failed: %s", __func__, esp_err_to_name(ret));
+    //     return;
+    // }
+    //
+    // ret = esp_bluedroid_enable();
+    // if (ret) {
+    //     ESP_LOGE(GATTS_TABLE_TAG, "%s enable bluetooth failed: %s", __func__, esp_err_to_name(ret));
+    //     return;
+    // }
+    //
+    // esp_ble_gatts_register_callback(gatts_event_handler);
+    // esp_ble_gap_register_callback(gap_event_handler);
+    // esp_ble_gatts_app_register(ESP_SPP_APP_ID);
+    //
+    // spp_task_init();
     // 蓝牙配置到此结束
 
     usart_init(115200);
 
+    wifi_start();
 
-    // wifi_start();
-    //
-    // tcp_task_start();
+    tcp_task_start();
 
     xTaskCreatePinnedToCore(start_main_task, "main_task", 2048, NULL, 5, NULL, 1);
 }
@@ -83,11 +82,19 @@ void start_main_task(void *pvParameters)
     initRingBuff();
 
 
-
     while (1)
     {
         char str[6];
         char str_1[6];
+
+        char str_2[6];
+        char str_3[6];
+        char str_4[6];
+        char str_5[6];
+        char str_6[6];
+        char str_7[6];
+        char str_8[6];
+        char str_9[6];
 
         initDataPos();
         initDataPosMul();
@@ -153,6 +160,26 @@ void start_main_task(void *pvParameters)
                     stepMotor_3.angle = getResultMul.resultMul_6;
                     stepMotor_4.speed = getResultMul.resultMul_7;
                     stepMotor_4.angle = getResultMul.resultMul_8;
+
+                    // 将数字转换为字符
+                    sprintf(str_2, "%d", getResultMul.resultMul_1);
+                    sprintf(str_3, "%d", getResultMul.resultMul_2);
+                    sprintf(str_4, "%d", getResultMul.resultMul_3);
+                    sprintf(str_5, "%d", getResultMul.resultMul_4);
+                    sprintf(str_6, "%d", getResultMul.resultMul_5);
+                    sprintf(str_7, "%d", getResultMul.resultMul_6);
+                    sprintf(str_8, "%d", getResultMul.resultMul_7);
+                    sprintf(str_9, "%d", getResultMul.resultMul_8);
+
+
+                    send(sock, str_2, sizeof(str), 0);
+                    send(sock, str_3, sizeof(str), 0);
+                    send(sock, str_4, sizeof(str), 0);
+                    send(sock, str_5, sizeof(str), 0);
+                    send(sock, str_6, sizeof(str), 0);
+                    send(sock, str_7, sizeof(str), 0);
+                    send(sock, str_8, sizeof(str), 0);
+                    send(sock, str_9, sizeof(str), 0);
 
                     if (stepMotor_1.angle != 0 && stepMotor_2.angle != 0 && stepMotor_3.angle != 0 && stepMotor_4.angle != 0) {
                         pulseOutput(stepMotor_1.dir, stepMotor_1.num, stepMotor_1.speed, stepMotor_1.angle);
@@ -221,15 +248,19 @@ void start_main_task(void *pvParameters)
                     }
                     else if (stepMotor_1.angle == 0 && stepMotor_2.angle == 0 && stepMotor_3.angle == 0 && stepMotor_4.angle != 0) {
                         pulseOutput(stepMotor_4.dir, stepMotor_4.num, stepMotor_4.speed, stepMotor_4.angle);
+                        Synchronous_motion(0);
                     }
                     else if (stepMotor_1.angle == 0 && stepMotor_2.angle == 0 && stepMotor_3.angle != 0 && stepMotor_4.angle == 0) {
                         pulseOutput(stepMotor_3.dir, stepMotor_3.num, stepMotor_3.speed, stepMotor_3.angle);
+                        Synchronous_motion(0);
                     }
                     else if (stepMotor_1.angle == 0 && stepMotor_2.angle != 0 && stepMotor_3.angle == 0 && stepMotor_4.angle == 0) {
                         pulseOutput(stepMotor_2.dir, stepMotor_2.num, stepMotor_2.speed, stepMotor_2.angle);
+                        Synchronous_motion(0);
                     }
                     else if (stepMotor_1.angle != 0 && stepMotor_2.angle == 0 && stepMotor_3.angle == 0 && stepMotor_4.angle == 0) {
                         pulseOutput(stepMotor_1.dir, stepMotor_1.num, stepMotor_1.speed, stepMotor_1.angle);
+                        Synchronous_motion(0);
                     }
                     udelete(8);
                 }
